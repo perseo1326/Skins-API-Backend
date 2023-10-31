@@ -40,22 +40,44 @@ public class SkinService {
         }
     }
 
+    private Skin getSkinFromId(String skinId) {
+        for( Skin skin : this.skinsList){
+            if(skin.getSkinId().equals(skinId)){
+                return skin;
+            }
+        }
+//        TODO: crear exception para manejo de skins invalidas
+        return null;
+    }
+
     /** filter only "ACTIVE" skins **/
     public List<Skin> getAllAvailableSkins (){
 
         return this.skinsList;
     }
 
-    public String buySkin(SkinUserDTO skinUserDTO) {
+    public SkinUser buySkin(SkinUserDTO skinUserDTO) {
 
+        Optional<Skin> skin = Optional.ofNullable(this.getSkinBySkinId(skinUserDTO.getSkinid()));
 
-        return "Skin Comprada";
+        if (skin.isEmpty()){
+            // TODO: exception no valid skin ID
+            throw new IllegalStateException("El Skin no ha sido encontrado.");
+        }
+
+        Optional<SkinUser> skinUser = this.skinUserRepository.findByUserIdAndSkinId(skinUserDTO.getUserid(), skinUserDTO.getSkinid());
+        if(skinUser.isPresent()){
+            // TODO: exception record already exist!
+            throw new IllegalStateException("La skin ya pertenece a este usuario.");
+        }
+
+        SkinUser skinUserNew = new SkinUser(skinUserDTO.getUserid(), skin.get().getSkinId(), skin.get().getColor());
+        return this.skinUserRepository.save(skinUserNew);
     }
 
     public List<SkinUser> getUserSkins(Long userId) {
 
-        List<SkinUser> skinsUser = skinUserRepository.findSkinsByUserId(userId);
-        return skinsUser;
+        return skinUserRepository.findSkinsByUserId(userId);
     }
 
     public SkinUser updateColorSkin(SkinUserDTO skinUserDTO){
@@ -85,14 +107,7 @@ public class SkinService {
     /** Return  only de "active" skins **/
     public Skin getSkinBySkinId (String skinId){
 
-        for( Skin skin : this.initialConfiguration.getCompletSkinsList()){
-            if(skin.getSkinId().equals(skinId)){
-                return skin;
-            }
-        }
-//        TODO: crear exception para manejo de skins invalidas
-        return null;
+        return getSkinFromId(skinId);
     }
-
 
 }

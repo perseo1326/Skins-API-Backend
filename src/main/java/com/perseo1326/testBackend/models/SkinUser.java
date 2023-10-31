@@ -27,6 +27,12 @@ public class SkinUser {
     public SkinUser() {
     }
 
+    public SkinUser(Long userId, String skinId, String skinColor) {
+        this.userId = userId;
+        this.skinId = skinId;
+        this.skinColor = skinColor;
+    }
+
     public Long getId() {
         return id;
     }

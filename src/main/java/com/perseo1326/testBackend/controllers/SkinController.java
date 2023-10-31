@@ -31,7 +31,7 @@ public class SkinController {
     /** POST /skins/buy - Permite a los usuarios adquirir una skin y guardarla en la base de datos. **/
     @PostMapping("/buy")
     @ResponseStatus(HttpStatus.OK)
-    public String buySkin (@RequestBody @Valid SkinUserDTO skinUserDTO){
+    public SkinUser buySkin (@RequestBody @Valid SkinUserDTO skinUserDTO){
         return skinService.buySkin(skinUserDTO);
     }
 
