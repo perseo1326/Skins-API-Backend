@@ -42,7 +42,7 @@ public class InitialConfiguration {
         }
     }
 
-    public ArrayList<Skin> getSkinsFromFileList() {
+    public ArrayList<Skin> getCompletSkinsList() {
         return skinsFromFileList;
     }
 }

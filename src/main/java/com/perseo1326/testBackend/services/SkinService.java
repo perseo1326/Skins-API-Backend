@@ -6,6 +6,7 @@ import com.perseo1326.testBackend.models.SkinUser;
 import com.perseo1326.testBackend.repositories.SkinUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class SkinService {
     }
     
     private void loadSkins(){
-        this.skinsList = initialConfiguration.getSkinsFromFileList();
+        this.skinsList = initialConfiguration.getCompletSkinsList();
 
         for (int i = 0; i < this.skinsList.size(); i++){
             if(!this.skinsList.get(i).getActive()){
@@ -61,12 +62,24 @@ public class SkinService {
         return "Actualizacion de color de skin pendiente!";
     }
 
-    public String deleteSkinFromUser(int userId, String skinId){
-        return "La skin No. " + skinId + ", del usuario " + userId + " ha sido eliminada de su cuenta";
+
+    @Transactional
+    public void deleteSkinFromUser(Long userId, String skinId){
+
+        this.skinUserRepository.deleteBySkinId(userId, skinId);
+//        return this.skinUserRepository.deleteSkinFromUser(skinId);
     }
 
-    public String getSkinBySkinId (int userId, String skinId){
-        return "Skin No. " + skinId + ", User Id: " + userId;
+    /** Return  only de "active" skins **/
+    public Skin getSkinBySkinId (String skinId){
+
+        for( Skin skin : this.initialConfiguration.getCompletSkinsList()){
+            if(skin.getSkinId().equals(skinId)){
+                return skin;
+            }
+        }
+//        TODO: crear exception para manejo de skins invalidas
+        return null;
     }
 
 

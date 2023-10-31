@@ -52,14 +52,14 @@ public class SkinController {
     /** DELETE /skins/delete/{id} - Permite a los usuarios eliminar una skin comprada. **/
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteSkinFromUser(@PathVariable("id") String skinId, @RequestParam("userid") int userId){
-        return skinService.deleteSkinFromUser(userId, skinId);
+    public void deleteSkinFromUser(@PathVariable("id") String skinId, @RequestParam("userid") Long userId){
+        skinService.deleteSkinFromUser(userId, skinId);
     }
 
     /** GET /skin/getskin/{id} – Devuelve una determinada skin. **/
     @GetMapping("/getskin/{id}")
-    public String getSkinBySkinId(@PathVariable("id") String skinId, @RequestParam("userid") int userId){
-        return skinService.getSkinBySkinId(userId, skinId);
+    public Skin getSkinBySkinId(@PathVariable("id") String skinId){
+        return skinService.getSkinBySkinId(skinId);
     }
 
 }
