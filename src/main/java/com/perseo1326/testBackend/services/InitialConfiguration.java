@@ -32,18 +32,9 @@ public class InitialConfiguration {
 
     private void loadSkins() {
 
-//        ArrayList<Skin> skinsFromFileList = new ArrayList<>();
-
-//        String configFile = projectProperties.skinConfigFile();
-//        String configFile = "src/main/resources/skinConfig.json";
-//        String skinsCollection;
-
-//        ArrayList<Skin> skinsFromFileList = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             this.skinsFromFileList = objectMapper.readValue(new File(this.skinConfigFile), new TypeReference<ArrayList<Skin>>() {});
-
-            var x = skinsFromFileList.getClass();
             System.out.println("Caragado archivo JSON!!");
         } catch (IOException exception) {
             System.out.println("No se puede acceder al archivo de configuracion de skins: \"" + this.skinConfigFile + "\"");
