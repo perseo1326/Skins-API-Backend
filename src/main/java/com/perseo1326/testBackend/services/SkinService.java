@@ -12,29 +12,31 @@ import java.util.List;
 @Service
 public class SkinService {
 
-//    private HashMap<String, Skin> skinsMap;
-    private List<Skin> skinsList;
+    private ArrayList<Skin> skinsList;
 
     @Autowired
     private final InitialConfiguration initialConfiguration;
 
     public SkinService(InitialConfiguration initialConfiguration) {
         this.initialConfiguration = initialConfiguration;
+        this.loadSkins();
+    }
+    
+    private void loadSkins(){
         this.skinsList = initialConfiguration.getSkinsFromFileList();
+
+        for (int i = 0; i < this.skinsList.size(); i++){
+            if(!this.skinsList.get(i).getActive()){
+                this.skinsList.remove(i);
+            }
+        }
     }
 
 
     /** filter only "ACTIVE" skins **/
     public List<Skin> getAllAvailableSkins (){
 
-        ArrayList<Skin> availableSkinsList = new ArrayList<>();
-        for (Skin skin : skinsList) {
-            if(skin.getActive()){
-                availableSkinsList.add(skin);
-            }
-        }
-
-        return availableSkinsList;
+        return this.skinsList;
     }
 
     public String buySkin(SkinUserDTO skinUserDTO) {
