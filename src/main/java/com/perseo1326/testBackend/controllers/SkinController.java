@@ -45,7 +45,7 @@ public class SkinController {
     /** PUT /skins/color - Permite a los usuarios cambiar el color de una skin comprada. **/
     @PutMapping("/color")
     @ResponseStatus(HttpStatus.OK)
-    public String updateColorSkin(@RequestBody @Valid SkinUserDTO skinUserDTO){
+    public SkinUser updateColorSkin(@RequestBody @Valid SkinUserDTO skinUserDTO){
         return skinService.updateColorSkin(skinUserDTO);
     }
 

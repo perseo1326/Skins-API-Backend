@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -57,9 +58,21 @@ public class SkinService {
         return skinsUser;
     }
 
-    public String updateColorSkin(SkinUserDTO skinUserDTO){
+    public SkinUser updateColorSkin(SkinUserDTO skinUserDTO){
 
-        return "Actualizacion de color de skin pendiente!";
+        if(skinUserDTO.getColor() == null){
+            // TODO: exception empty color request
+            throw new IllegalStateException("no se ha proporcionado un color valido");
+        }
+
+        Optional<SkinUser> skinUser = this.skinUserRepository.findByUserIdAndSkinId(skinUserDTO.getUserid(), skinUserDTO.getSkinid());
+        if(skinUser.isEmpty()){
+            // TODO: exception
+            throw new IllegalStateException("No se encuentra la skin para actualizar!");
+        }
+
+        skinUser.get().setSkinColor( skinUserDTO.getColor());
+        return this.skinUserRepository.save(skinUser.get());
     }
 
 
@@ -67,7 +80,6 @@ public class SkinService {
     public void deleteSkinFromUser(Long userId, String skinId){
 
         this.skinUserRepository.deleteBySkinId(userId, skinId);
-//        return this.skinUserRepository.deleteSkinFromUser(skinId);
     }
 
     /** Return  only de "active" skins **/
