@@ -2,6 +2,7 @@ package com.perseo1326.testBackend.controllers;
 
 import com.perseo1326.testBackend.DTOs.SkinUserDTO;
 import com.perseo1326.testBackend.models.Skin;
+import com.perseo1326.testBackend.models.SkinUser;
 import com.perseo1326.testBackend.services.SkinService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class SkinController {
     /** GET /skins/myskins - Devuelve una lista de las skins compradas por el usuario. **/
     @GetMapping("/myskins")
     @ResponseStatus(HttpStatus.OK)
-    public String getMySkins(@RequestParam("userid") int userId){
+    public List<SkinUser> getMySkins(@RequestParam("userid") Long userId){
         return skinService.getUserSkins(userId);
     }
 

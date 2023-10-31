@@ -2,6 +2,8 @@ package com.perseo1326.testBackend.services;
 
 import com.perseo1326.testBackend.DTOs.SkinUserDTO;
 import com.perseo1326.testBackend.models.Skin;
+import com.perseo1326.testBackend.models.SkinUser;
+import com.perseo1326.testBackend.repositories.SkinUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,12 @@ public class SkinService {
     @Autowired
     private final InitialConfiguration initialConfiguration;
 
-    public SkinService(InitialConfiguration initialConfiguration) {
+    @Autowired
+    private final SkinUserRepository skinUserRepository;
+
+    public SkinService(InitialConfiguration initialConfiguration, SkinUserRepository skinUserRepository) {
         this.initialConfiguration = initialConfiguration;
+        this.skinUserRepository = skinUserRepository;
         this.loadSkins();
     }
     
@@ -32,7 +38,6 @@ public class SkinService {
         }
     }
 
-
     /** filter only "ACTIVE" skins **/
     public List<Skin> getAllAvailableSkins (){
 
@@ -41,12 +46,14 @@ public class SkinService {
 
     public String buySkin(SkinUserDTO skinUserDTO) {
 
+
         return "Skin Comprada";
     }
 
-    public String getUserSkins(int userId) {
-        // neceista identiicar el usuario
-        return "Skins del usuario " + userId + ", son: " + "A1, B2, C3";
+    public List<SkinUser> getUserSkins(Long userId) {
+
+        List<SkinUser> skinsUser = skinUserRepository.findSkinsByUserId(userId);
+        return skinsUser;
     }
 
     public String updateColorSkin(SkinUserDTO skinUserDTO){
