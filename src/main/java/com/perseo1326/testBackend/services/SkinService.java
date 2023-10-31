@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -22,39 +21,25 @@ public class SkinService {
     public SkinService(InitialConfiguration initialConfiguration) {
         this.initialConfiguration = initialConfiguration;
         this.skinsList = initialConfiguration.getSkinsFromFileList();
-
-//        List<Skin> skinsList = initialConfiguration.getSkinsFromFileList();
-//        for (Skin skin : skinsList) {
-//            this.skinsMap.put(skin.getSkinId(), skin);
-//        }
     }
 
 
-
+    /** filter only "ACTIVE" skins **/
     public List<Skin> getAllAvailableSkins (){
 
+        ArrayList<Skin> availableSkinsList = new ArrayList<>();
+        for (Skin skin : skinsList) {
+            if(skin.getActive()){
+                availableSkinsList.add(skin);
+            }
+        }
 
-//        for (HashMap.Entry<String, Skin> entry : skinsMap.entrySet()){
-//            System.out.println("Clave: " + entry.getKey());
-//            System.out.println("Objeto: " + entry.getValue());
-//        }
-
-        return skinsList;
+        return availableSkinsList;
     }
 
     public String buySkin(SkinUserDTO skinUserDTO) {
 
-//        this.readSkinsFromFile();
-
-//        Resource x = loadEmployeesWithClassPathResource();
-//        x.toString();
-//        Resource resource = new ClassPathResource("classpath:/skinConfig.txt");
-//        File file = resource.getFile();
-
-//        System.out.println("FILE: " + file.toString());
         return "Skin Comprada";
-
-
     }
 
     public String getUserSkins(int userId) {
