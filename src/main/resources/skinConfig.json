@@ -1,0 +1,56 @@
+[
+      {
+        "skinId": "A1",
+        "name": "white basic skin",
+        "type": "basic",
+        "price": "11.90",
+        "color": "white",
+        "active": true,
+        "skinVersion": 1.0
+      },
+      {
+        "skinId": "B2",
+        "name": "black pro skin",
+        "type": "pro",
+        "price": "16.90",
+        "color": "black",
+        "active": true,
+        "skinVersion": 1.0
+      },
+      {
+        "skinId": "C3",
+        "name": "yellow basic skin",
+        "type": "basic",
+        "price": "9.90",
+        "color": "yellow",
+        "active": false,
+        "skinVersion": 1.0
+      },
+      {
+        "skinId": "D4",
+        "name": "red basic skin",
+        "type": "basic",
+        "price": "12.90",
+        "color": "red",
+        "active": true,
+        "skinVersion": 1.0
+      },
+      {
+        "skinId": "E5",
+        "name": "green pro skin",
+        "type": "pro",
+        "price": "13.90",
+        "color": "green",
+        "active": false,
+        "skinVersion": 1.0
+      },
+      {
+        "skinId": "F6",
+        "name": "blue basic skin",
+        "type": "basic",
+        "price": "15.90",
+        "color": "blue",
+        "active": true,
+        "skinVersion": 1.0
+      }
+    ]
