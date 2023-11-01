@@ -1,6 +1,7 @@
 package com.perseo1326.testBackend.services;
 
 import com.perseo1326.testBackend.DTOs.SkinUserDTO;
+import com.perseo1326.testBackend.exceptions.NotValidDataException;
 import com.perseo1326.testBackend.models.Skin;
 import com.perseo1326.testBackend.models.SkinUser;
 import com.perseo1326.testBackend.repositories.SkinUserRepository;
@@ -46,7 +47,6 @@ public class SkinService {
                 return skin;
             }
         }
-//        TODO: crear exception para manejo de skins invalidas
         return null;
     }
 
@@ -61,14 +61,12 @@ public class SkinService {
         Optional<Skin> skin = Optional.ofNullable(this.getSkinBySkinId(skinUserDTO.getSkinid()));
 
         if (skin.isEmpty()){
-            // TODO: exception no valid skin ID
-            throw new IllegalStateException("El Skin no ha sido encontrado.");
+            throw new NotValidDataException("El ID del Skin no es válido.");
         }
 
         Optional<SkinUser> skinUser = this.skinUserRepository.findByUserIdAndSkinId(skinUserDTO.getUserid(), skinUserDTO.getSkinid());
         if(skinUser.isPresent()){
-            // TODO: exception record already exist!
-            throw new IllegalStateException("La skin ya pertenece a este usuario.");
+            throw new NotValidDataException("La skin a comprar ya pertenece a este usuario.");
         }
 
         SkinUser skinUserNew = new SkinUser(skinUserDTO.getUserid(), skin.get().getSkinId(), skin.get().getColor());
@@ -83,14 +81,12 @@ public class SkinService {
     public SkinUser updateColorSkin(SkinUserDTO skinUserDTO){
 
         if(skinUserDTO.getColor() == null){
-            // TODO: exception empty color request
-            throw new IllegalStateException("no se ha proporcionado un color valido");
+            throw new NotValidDataException("No se ha proporcionado un color válido");
         }
 
         Optional<SkinUser> skinUser = this.skinUserRepository.findByUserIdAndSkinId(skinUserDTO.getUserid(), skinUserDTO.getSkinid());
         if(skinUser.isEmpty()){
-            // TODO: exception
-            throw new IllegalStateException("No se encuentra la skin para actualizar!");
+            throw new NotValidDataException("La skin primero debe ser comprada.");
         }
 
         skinUser.get().setSkinColor( skinUserDTO.getColor());

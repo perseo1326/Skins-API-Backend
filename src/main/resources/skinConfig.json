@@ -41,7 +41,7 @@
         "type": "pro",
         "price": "13.90",
         "color": "green",
-        "active": false,
+        "active": true,
         "skinVersion": 1.0
       },
       {
