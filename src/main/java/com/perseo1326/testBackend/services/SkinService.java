@@ -41,6 +41,7 @@ public class SkinService {
         }
     }
 
+
     /** Return only active skins **/
     private Skin getSkinFromId(String skinId) {
         for( Skin skin : this.skinsList){
@@ -51,17 +52,19 @@ public class SkinService {
         return null;
     }
 
+
     public List<Skin> getAllAvailableSkins (){
 
         return this.skinsList;
     }
+
 
     public SkinUser buySkin(SkinUserDTO skinUserDTO) {
 
         Optional<Skin> skin = Optional.ofNullable(this.getSkinBySkinId(skinUserDTO.getSkinid()));
 
         if (skin.isEmpty()){
-            throw new NotValidDataException("El ID del Skin no es válido.");
+            throw new NotValidDataException("No se encontró la skin solicitada.");
         }
 
         Optional<SkinUser> skinUser = this.skinUserRepository.findByUserIdAndSkinId(skinUserDTO.getUserid(), skinUserDTO.getSkinid());
@@ -73,10 +76,12 @@ public class SkinService {
         return this.skinUserRepository.save(skinUserNew);
     }
 
+
     public List<SkinUser> getUserSkins(Long userId) {
 
         return skinUserRepository.findSkinsByUserId(userId);
     }
+
 
     public SkinUser updateColorSkin(SkinUserDTO skinUserDTO){
 
@@ -99,6 +104,7 @@ public class SkinService {
 
         this.skinUserRepository.deleteBySkinId(userId, skinId);
     }
+
 
     /** Return  only de "active" skins **/
     public Skin getSkinBySkinId (String skinId){
