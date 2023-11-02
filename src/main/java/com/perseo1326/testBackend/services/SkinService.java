@@ -41,6 +41,7 @@ public class SkinService {
         }
     }
 
+    /** Return only active skins **/
     private Skin getSkinFromId(String skinId) {
         for( Skin skin : this.skinsList){
             if(skin.getSkinId().equals(skinId)){
@@ -50,7 +51,6 @@ public class SkinService {
         return null;
     }
 
-    /** filter only "ACTIVE" skins **/
     public List<Skin> getAllAvailableSkins (){
 
         return this.skinsList;
