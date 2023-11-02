@@ -1,5 +1,6 @@
 
-USE jump2digital_test_skins_db;
+--USE jump2digital_test_skins_db;
+USE perseo1326_jump2digital_backend_api;
 
 DELETE FROM user_skins WHERE TRUE;
 
