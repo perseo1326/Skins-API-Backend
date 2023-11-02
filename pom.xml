@@ -54,6 +54,12 @@
     </dependencies>
 
 	<build>
+		<filters>
+			<filter>
+				src/main/resources/connection.properties
+			</filter>
+		</filters>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
