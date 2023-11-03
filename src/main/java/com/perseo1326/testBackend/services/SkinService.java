@@ -1,6 +1,7 @@
 package com.perseo1326.testBackend.services;
 
 import com.perseo1326.testBackend.DTOs.SkinUserDTO;
+import com.perseo1326.testBackend.exceptions.NotFoundDataException;
 import com.perseo1326.testBackend.exceptions.NotValidDataException;
 import com.perseo1326.testBackend.models.Skin;
 import com.perseo1326.testBackend.models.SkinUser;
@@ -102,7 +103,17 @@ public class SkinService {
     @Transactional
     public void deleteSkinFromUser(Long userId, String skinId){
 
-        this.skinUserRepository.deleteBySkinId(userId, skinId);
+        Optional<Skin> skin = Optional.ofNullable(this.getSkinBySkinId(skinId));
+        if(skin.isEmpty()){
+            throw new NotFoundDataException("El \"skinId\" no fue encontrado.");
+        }
+
+        Optional<SkinUser> skinUser = this.skinUserRepository.findByUserIdAndSkinId(userId, skinId);
+        if (skinUser.isEmpty()){
+            throw new NotValidDataException("el usuario no posee la skin seleccionada.");
+        }
+
+        this.skinUserRepository.deleteBySkinId(skinUser.get().getId());
     }
 
 

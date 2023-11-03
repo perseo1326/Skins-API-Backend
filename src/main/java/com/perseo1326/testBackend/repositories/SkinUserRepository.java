@@ -15,8 +15,8 @@ public interface SkinUserRepository extends JpaRepository<SkinUser, Long> {
     List<SkinUser> findSkinsByUserId(@Param("userId") Long userId);
 
     @Modifying
-    @Query("DELETE FROM SkinUser u WHERE u.skinId = :skinId AND u.userId = :userId ")
-    void deleteBySkinId(@Param("userId") Long userId, @Param("skinId") String skinId);
+    @Query("DELETE FROM SkinUser u WHERE u.id = :skinUserId ")
+    void deleteBySkinId(@Param("skinUserId") Long skinUserId);
 
     @Query("SELECT s FROM SkinUser s WHERE s.userId = :userId AND s.skinId = :skinId ")
     Optional<SkinUser> findByUserIdAndSkinId(@Param("userId") Long userId, @Param("skinId") String skinId);
