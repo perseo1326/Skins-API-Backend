@@ -3,7 +3,7 @@ This is a basic API that allow users to get, buy, modify and delete skins for a 
  application.
 
 ## Architecture
-This project is written in Java 17 and Spring Boot 3.1.5, and it is connected to an external online MySQL database service in order to save the data for skins bought for the different users.
+This project is written in Java 17 and Spring Boot 3.1.5, and it is connected to a MySQL database service in order to save the data for skins bought for the different users.
 Also, this API reads a json configuration file inside the project, which contains the skins data provided to the users by their requests.
 
 ## Quick Start - Execution
@@ -13,10 +13,10 @@ When all is updated, you will need to provide an accessible MySQL database schem
 
 Follow, open the file `src/main/resources/connection.properties` and fulfil the following:
 
-- **MySQL.database.host**= database host name
-- **MySQL.database.schema**= database schema
-- **MySQL.database.username**= user database
-- **MySQL.database.password**= password for the user
+- `MySQL.database.host`= database host name
+- `MySQL.database.schema`= database schema
+- `MySQL.database.username`= user database
+- `MySQL.database.password`= password for the user
 
 ## API Documentation
 
