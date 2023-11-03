@@ -1,16 +1,20 @@
 package com.perseo1326.testBackend.DTOs;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class SkinUserDTO {
 
+    @Schema(name = "El Id del usuario", example = "12", required = true)
     @NotNull(message = "A user id must be provided!")
     private Long userid;
 
+    @Schema(name = "El Id de la skin", example = "B2", required = true)
     @NotBlank(message = "A skin id must be provided!")
     private String skinid;
 
+    @Schema(name = "El color que se le aplicará a la skin", example = "purple", required = false)
     private String color;
 
     public SkinUserDTO() {
