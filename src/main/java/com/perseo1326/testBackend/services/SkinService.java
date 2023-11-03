@@ -63,9 +63,8 @@ public class SkinService {
     public SkinUser buySkin(SkinUserDTO skinUserDTO) {
 
         Optional<Skin> skin = Optional.ofNullable(this.getSkinBySkinId(skinUserDTO.getSkinid()));
-
         if (skin.isEmpty()){
-            throw new NotValidDataException("No se encontró la skin solicitada.");
+            throw new NotFoundDataException("No se encontró la skin solicitada.");
         }
 
         Optional<SkinUser> skinUser = this.skinUserRepository.findByUserIdAndSkinId(skinUserDTO.getUserid(), skinUserDTO.getSkinid());
