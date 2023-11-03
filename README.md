@@ -9,17 +9,23 @@ Also, this API reads a json configuration file inside the project, which contain
 ## Quick Start - Execution
 In order to execute this API, download the repository and open the project with your favorite Java IDE. Then let the IDE update all dependencies. 
 
-When all is updated, you will need to provide an accessible MySQL database squema with a valid user and password. The user has to have permission to execute DDL sequences into the database, because the API will create the table and populate the database with basic information.
+When all is updated, you will need to provide an accessible MySQL database schema with a valid user and password. The user has to have permission to execute DDL sequences into the database, because the API will create the table and populate the database with basic information.
 
-Follow, open the file ***"src/main/resources/connection.properties"*** and fulfil the following:
+Follow, open the file `src/main/resources/connection.properties` and fulfil the following:
 
 - **MySQL.database.host**= database host name
-- **MySQL.database.squema**= database squema
+- **MySQL.database.schema**= database schema
 - **MySQL.database.username**= user database
 - **MySQL.database.password**= password for the user
 
+## API Documentation
+
+The documentation for the API is located under the url `/v1/skins/documentation`, this documentation was generated with OpenAPI 3.0 and Swagger.
+
+Also, you will find an offline copy in a pdf file of this documentation into the repository folder `Additional_Resources` 
 
 -----
+
 
 ## Data Models Used
 The project was constructed using two different data structures, the "Skin" model and the "User Settings" model.
