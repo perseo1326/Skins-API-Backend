@@ -1,6 +1,7 @@
 package com.perseo1326.testBackend.exceptions;
 
 import com.perseo1326.testBackend.DTOs.ResponseObjectError;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,11 @@ public class ApiResponseEntityExceptionHandler extends ResponseEntityExceptionHa
     @ExceptionHandler(value = {NotValidDataException.class})
     protected ResponseEntity<ResponseObjectError> handleNotValidData(RuntimeException exception, WebRequest webRequest) {
         return getResponseError(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(value = {NotFoundDataException.class})
+    protected ResponseEntity<ResponseObjectError> handleNotFoundData(RuntimeException exception, WebRequest webRequest) {
+        return getResponseError(HttpStatus.NOT_FOUND, exception.getMessage());
     }
 
     private ResponseEntity<ResponseObjectError> getResponseError(HttpStatus httpStatus, String message) {
