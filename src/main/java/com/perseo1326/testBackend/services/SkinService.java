@@ -29,18 +29,10 @@ public class SkinService {
     public SkinService(InitialConfiguration initialConfiguration, SkinUserRepository skinUserRepository) {
         this.initialConfiguration = initialConfiguration;
         this.skinUserRepository = skinUserRepository;
-        this.loadSkins();
+        this.skinsList = initialConfiguration.getOnlyValidSkins();
     }
     
-    private void loadSkins(){
-        this.skinsList = initialConfiguration.getCompletSkinsList();
 
-        for (int i = 0; i < this.skinsList.size(); i++){
-            if(!this.skinsList.get(i).getActive()){
-                this.skinsList.remove(i);
-            }
-        }
-    }
 
 
     /** Return only active skins **/

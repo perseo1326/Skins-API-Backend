@@ -13,7 +13,6 @@ import java.util.*;
 
 import static java.lang.System.exit;
 
-//@Component
 @Configuration
 public class InitialConfiguration {
 
@@ -45,4 +44,17 @@ public class InitialConfiguration {
     public ArrayList<Skin> getCompletSkinsList() {
         return skinsFromFileList;
     }
+
+    public ArrayList<Skin> getOnlyValidSkins(){
+
+        ArrayList<Skin> onlyValidSkinsList = new ArrayList<>();
+
+        for ( Skin skin : this.skinsFromFileList) {
+            if(skin.getActive()){
+                onlyValidSkinsList.add(skin);
+            }
+        }
+        return onlyValidSkinsList;
+    }
+
 }
