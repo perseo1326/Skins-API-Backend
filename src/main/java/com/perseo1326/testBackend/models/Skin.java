@@ -4,25 +4,25 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public class Skin {
 
-    @Schema(name = "Id de la skin", example = "C3", required = true)
+    @Schema(name = "skinId", description = "Id de la skin", example = "C3", required = true)
     private String skinId;
 
-    @Schema(name = "Nombre de la skin", example = "red basic skin", required = true)
+    @Schema(name = "name", description = "Nombre de la skin", example = "red basic skin", required = true)
     private String name;
 
-    @Schema(name = "Tipo de skin", example = "basic", required = true)
+    @Schema(name = "type", description = "Tipo de skin", example = "basic", required = true)
     private String type;
 
-    @Schema(name = "Precio de la skin", example = "9.99", required = true)
+    @Schema(name = "price", description = "Precio de la skin", example = "9.99", required = true)
     private double price;
 
-    @Schema(name = "Color que se aplica a la skin", example = "yellow", required = true)
+    @Schema(name = "color", description = "Color que se aplica a la skin", example = "yellow", required = true)
     private String color;
 
-    @Schema(name = "Propiedad que indica si la skin esta activa o no", example = "true", required = true)
+    @Schema(name = "active", description = "Propiedad que indica si la skin esta activa o no", example = "true", required = true)
     private Boolean active;
 
-    @Schema(name = "Vresion de la skin", example = "1.0", required = true)
+    @Schema(name = "skinVersion", description = "Version de la skin", example = "1.0", required = true)
     private double skinVersion;
 
     public Skin() {

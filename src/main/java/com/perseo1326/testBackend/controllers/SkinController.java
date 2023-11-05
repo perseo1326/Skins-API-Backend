@@ -45,9 +45,9 @@ public class SkinController {
     /** POST /skins/buy - Permite a los usuarios adquirir una skin y guardarla en la base de datos. **/
     @Operation(summary = "Permite a los usuarios adquirir una skin y guardarla en la base de datos.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Compra exitosa de la skin solicitada por el usuario.",
+            @ApiResponse(responseCode = "201", description = "Compra exitosa de la skin solicitada por el usuario.",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = SkinUserDTO.class)) }),
+                            schema = @Schema(implementation = Skin.class)) }),
             @ApiResponse(responseCode = "400", description = "Parámetros incompletos o no válidos.",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "La skin solicitada no pudo ser encontrada.",
@@ -80,7 +80,7 @@ public class SkinController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Actualización correcta",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = SkinUserDTO.class)) }),
+                            schema = @Schema(implementation = Skin.class)) }),
             @ApiResponse(responseCode = "400", description = "Parámetros incompletos o no válidos.",
                     content = @Content)
      })
@@ -112,7 +112,7 @@ public class SkinController {
             @ApiResponse(responseCode = "200", description = "Skin solicitada.",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Skin.class)) }),
-            @ApiResponse(responseCode = "404", description = "El skinId no pudo ser encontrado.",
+            @ApiResponse(responseCode = "404", description = "El skinId no se ha encontrado.",
                     content = @Content) })
     @GetMapping("/getskin/{id}")
     @ResponseStatus(HttpStatus.OK)
