@@ -89,7 +89,7 @@ class SkinControllerTest {
             var getSkinBought = objectMapper.readValue (mvcResult.getResponse().getContentAsString(), Skin.class );
 
             assertAll(
-                    () -> assertEquals(200, mvcResult.getResponse().getStatus()),
+                    () -> assertEquals(201, mvcResult.getResponse().getStatus()),
                     () -> assertEquals(MediaType.APPLICATION_JSON.toString(), mvcResult.getResponse().getContentType()),
                     () -> assertEquals(skinUserDTO.getSkinid(), getSkinBought.getSkinId())
             );
@@ -145,12 +145,9 @@ class SkinControllerTest {
                     )
                     .andExpect(status().isNotFound()).andReturn();
 
-            var x = mvcResult.getResolvedException().getMessage();
-            System.out.println("Valor de X: " + x);
-
             assertEquals(404, mvcResult.getResponse().getStatus(), "El status no es correcto!");
             assertEquals(NotFoundDataException.class, mvcResult.getResolvedException().getClass());
-            assertEquals("No se encontró la skin solicitada.", mvcResult.getResolvedException().getMessage());
+            assertEquals("No se encontro el skin solicitado", mvcResult.getResolvedException().getMessage());
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -205,26 +202,81 @@ class SkinControllerTest {
         }
     }
 
+
+    @DisplayName("cambiar el color de una skin ya comprada")
     @Test
     void updateColorSkin() {
 
-        SkinUserDTO skinUserDTO = new SkinUserDTO(2L, "Z10", "orange");
+        SkinUserDTO skinUserDTO = new SkinUserDTO(3L, "F6", "orange");
 
         try {
             MvcResult mvcResult = mockMvc.perform(
-                            MockMvcRequestBuilders.post("/v1/skins/buy")
+                            MockMvcRequestBuilders.put("/v1/skins/color")
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .accept(MediaType.APPLICATION_JSON)
                                     .content(objectMapper.writeValueAsString(skinUserDTO))
                     )
-                    .andExpect(status().isNotFound()).andReturn();
+                    .andExpect(status().isOk())
+                    .andReturn();
 
-            var x = mvcResult.getResolvedException().getMessage();
-            System.out.println("Valor de X: " + x);
+            var skin = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Skin.class );
+            var x = mvcResult.getResponse();
+            System.out.println("Valor de X: \n");
+
+            assertEquals(200, mvcResult.getResponse().getStatus(), "El status no es correcto!");
+            assertEquals(MimeTypeUtils.APPLICATION_JSON_VALUE, mvcResult.getResponse().getContentType());
+            assertTrue(skin.getColor().equals(skinUserDTO.getColor()));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DisplayName("cambiar el color de una skin que NO se ha comprado")
+    @Test
+    void updateColorSkin_noOwnedSkin() {
+
+        SkinUserDTO skinUserDTO = new SkinUserDTO(100L, "F6", "orange");
+
+        try {
+            MvcResult mvcResult = mockMvc.perform(
+                            MockMvcRequestBuilders.put("/v1/skins/color")
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .accept(MediaType.APPLICATION_JSON)
+                                    .content(objectMapper.writeValueAsString(skinUserDTO))
+                    )
+                    .andExpect(status().isBadRequest())
+                    .andReturn();
+
+            assertEquals(400, mvcResult.getResponse().getStatus(), "El status no es correcto!");
+            assertEquals(MimeTypeUtils.APPLICATION_JSON_VALUE, mvcResult.getResponse().getContentType());
+            assertTrue(mvcResult.getResponse().getContentAsString().contains("debe ser comprada"));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @DisplayName("cambiar el color de una skin que NO existe")
+    @Test
+    void updateColorSkin_noFoundedSkinId() {
+
+        SkinUserDTO skinUserDTO = new SkinUserDTO(1L, "Y666", "orange");
+
+        try {
+            MvcResult mvcResult = mockMvc.perform(
+                            MockMvcRequestBuilders.put("/v1/skins/color")
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .accept(MediaType.APPLICATION_JSON)
+                                    .content(objectMapper.writeValueAsString(skinUserDTO))
+                    )
+                    .andExpect(status().isNotFound())
+                    .andReturn();
 
             assertEquals(404, mvcResult.getResponse().getStatus(), "El status no es correcto!");
-            assertEquals(NotFoundDataException.class, mvcResult.getResolvedException().getClass());
-            assertEquals("No se encontró la skin solicitada.", mvcResult.getResolvedException().getMessage());
+            assertEquals(MimeTypeUtils.APPLICATION_JSON_VALUE, mvcResult.getResponse().getContentType());
+            assertTrue(mvcResult.getResponse().getContentAsString().contains("No se encontro el skin"));
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -249,7 +301,7 @@ class SkinControllerTest {
             assertAll(
                     () -> assertEquals(404, mvcResult.getResponse().getStatus(), "El status no es correcto!"),
                     () -> assertEquals(MimeTypeUtils.APPLICATION_JSON_VALUE, mvcResult.getResponse().getContentType()),
-                    () -> assertTrue(mvcResult.getResponse().getContentAsString().contains("No se encontro un skin"))
+                    () -> assertTrue(mvcResult.getResponse().getContentAsString().contains("No se encontro el skin solicitado"))
             );
 
         } catch (Exception e) {
@@ -347,7 +399,7 @@ class SkinControllerTest {
                     assertAll(
                         () -> assertEquals(404, mvcResult.getResponse().getStatus(), "El status no es correcto!"),
                         () -> assertEquals(MimeTypeUtils.APPLICATION_JSON_VALUE, mvcResult.getResponse().getContentType()),
-                        () -> assertTrue(mvcResult.getResponse().getContentAsString().contains("No se encontro un skin"))
+                        () -> assertTrue(mvcResult.getResponse().getContentAsString().contains("No se encontro el skin solicitado"))
                     );
 
         } catch (Exception e) {
