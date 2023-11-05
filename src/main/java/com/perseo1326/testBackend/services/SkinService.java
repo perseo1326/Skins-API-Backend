@@ -75,11 +75,14 @@ public class SkinService {
     }
 
 
-    public SkinUser updateColorSkin(SkinUserDTO skinUserDTO){
+    public Skin updateColorSkin(SkinUserDTO skinUserDTO){
 
         if(skinUserDTO.getColor() == null){
             throw new NotValidDataException("No se ha proporcionado un color válido");
         }
+
+        // No need declare Exception again. Already generated 'NotFoundDataException'
+        Skin skinValid = this.getSkinBySkinId(skinUserDTO.getSkinid());
 
         Optional<SkinUser> skinUser = this.skinUserRepository.findByUserIdAndSkinId(skinUserDTO.getUserid(), skinUserDTO.getSkinid());
         if(skinUser.isEmpty()){
@@ -87,7 +90,9 @@ public class SkinService {
         }
 
         skinUser.get().setSkinColor( skinUserDTO.getColor());
-        return this.skinUserRepository.save(skinUser.get());
+
+        skinValid.setColor( (this.skinUserRepository.save(skinUser.get())).getSkinColor());
+        return skinValid;
     }
 
 
@@ -113,7 +118,7 @@ public class SkinService {
 
         Optional<Skin> skin = Optional.ofNullable(getSkinFromId(skinId));
         if ((skin.isEmpty())){
-            throw new NotFoundDataException("No se encontro un skin con el skinId proporcionado");
+            throw new NotFoundDataException("No se encontro el skin solicitado");
         }
         return skin.get();
     }
