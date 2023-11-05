@@ -111,7 +111,11 @@ public class SkinService {
     /** Return  only de "active" skins **/
     public Skin getSkinBySkinId (String skinId){
 
-        return getSkinFromId(skinId);
+        Optional<Skin> skin = Optional.ofNullable(getSkinFromId(skinId));
+        if ((skin.isEmpty())){
+            throw new NotFoundDataException("No se encontro un skin con el skinId proporcionado");
+        }
+        return skin.get();
     }
 
 }
