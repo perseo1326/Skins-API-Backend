@@ -101,7 +101,7 @@ public class SkinController {
     /** DELETE /skins/delete/{id} - Permite a los usuarios eliminar una skin comprada. **/
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteSkinFromUser(@Parameter(description = "El Id de la skin.") @PathVariable("id") String skinId, @Parameter(description = "El Id del usuario que solicita la acción.") @RequestParam("userid") Long userId){
+    public void deleteSkinFromUser(@Parameter(description = "El Id de la skin.") @PathVariable("id") String skinId, @Parameter(description = "El Id del usuario que solicita la acción.") @RequestParam("userid") @Valid Long userId){
         skinService.deleteSkinFromUser(userId, skinId);
     }
 
