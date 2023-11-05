@@ -22,7 +22,8 @@ Follow, open the file `src/main/resources/connection.properties` and fulfil the 
 
 The documentation for the API is located under the url `/v1/skins/documentation`, this documentation was generated with OpenAPI 3.0 and Swagger.
 
-Also, you will find an offline copy in a pdf file of this documentation into the repository folder `Additional_Resources` 
+Also, you will find an offline copy in a pdf file of this documentation into the repository folder [`Additional_Resources/api-documentation.pdf`](Additional_Resources/api-documentation.pdf)
+
 
 -----
 
