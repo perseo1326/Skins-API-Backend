@@ -53,7 +53,7 @@ public class SkinController {
             @ApiResponse(responseCode = "404", description = "La skin solicitada no pudo ser encontrada.",
                     content = @Content) })
     @PostMapping("/buy")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public SkinUser buySkin (@RequestBody @Valid SkinUserDTO skinUserDTO){
         return skinService.buySkin(skinUserDTO);
     }
@@ -86,7 +86,7 @@ public class SkinController {
      })
     @PutMapping("/color")
     @ResponseStatus(HttpStatus.OK)
-    public SkinUser updateColorSkin(@RequestBody @Valid SkinUserDTO skinUserDTO){
+    public Skin updateColorSkin(@RequestBody @Valid SkinUserDTO skinUserDTO){
         return skinService.updateColorSkin(skinUserDTO);
     }
 
