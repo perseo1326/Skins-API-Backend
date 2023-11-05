@@ -37,7 +37,7 @@ public class InitialConfiguration {
             System.out.println("Caragado archivo JSON!!");
         } catch (IOException exception) {
             System.out.println("No se puede acceder al archivo de configuracion de skins: \"" + this.skinConfigFile + "\"");
-            exit(1);
+            System.exit(1);
         }
     }
 
