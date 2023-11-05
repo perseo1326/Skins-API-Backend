@@ -12,28 +12,25 @@ import com.perseo1326.testBackend.services.InitialConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.boot.web.server.WebServerSslBundle.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class SkinControllerTest {
 
-    private InitialConfiguration initialConfiguration;
+    private final InitialConfiguration initialConfiguration;
 
     private MockMvc mockMvc;
 
@@ -210,10 +207,80 @@ class SkinControllerTest {
 
     @Test
     void updateColorSkin() {
+
+        SkinUserDTO skinUserDTO = new SkinUserDTO(2L, "Z10", "orange");
+
+        try {
+            MvcResult mvcResult = mockMvc.perform(
+                            MockMvcRequestBuilders.post("/v1/skins/buy")
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .accept(MediaType.APPLICATION_JSON)
+                                    .content(objectMapper.writeValueAsString(skinUserDTO))
+                    )
+                    .andExpect(status().isNotFound()).andReturn();
+
+            var x = mvcResult.getResolvedException().getMessage();
+            System.out.println("Valor de X: " + x);
+
+            assertEquals(404, mvcResult.getResponse().getStatus(), "El status no es correcto!");
+            assertEquals(NotFoundDataException.class, mvcResult.getResolvedException().getClass());
+            assertEquals("No se encontró la skin solicitada.", mvcResult.getResolvedException().getMessage());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
+
     @Test
-    void deleteSkinFromUser() {
+    void deleteSkinFromUser_wrongSkinId() {
+
+        String skinId = "X64";
+        Long userId = 3L;
+
+        try {
+            MvcResult mvcResult = mockMvc.perform(
+                            MockMvcRequestBuilders.delete("/v1/skins/delete/{skinId}", skinId )
+                                    .param("userid", userId.toString())
+                                    .accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+
+            assertAll(
+                    () -> assertEquals(404, mvcResult.getResponse().getStatus(), "El status no es correcto!"),
+                    () -> assertEquals(MimeTypeUtils.APPLICATION_JSON_VALUE, mvcResult.getResponse().getContentType()),
+                    () -> assertTrue(mvcResult.getResponse().getContentAsString().contains("No se encontro un skin"))
+            );
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Test
+    void deleteSkinFromUser_skinNotBelongsToUser() {
+
+        String skinId = "A1";
+        Long userId = 3L;
+
+        try {
+            MvcResult mvcResult = mockMvc.perform(
+                            MockMvcRequestBuilders.delete("/v1/skins/delete/{skinId}", skinId )
+                                    .param("userid", userId.toString())
+                                    .accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
+                    .andExpect(status().isBadRequest())
+                    .andReturn();
+
+            assertAll(
+                    () -> assertEquals(400, mvcResult.getResponse().getStatus(), "El status no es correcto!"),
+                    () -> assertEquals(MimeTypeUtils.APPLICATION_JSON_VALUE, mvcResult.getResponse().getContentType()),
+                    () -> assertTrue(mvcResult.getResponse().getContentAsString().contains("el usuario no posee"))
+            );
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -276,9 +343,6 @@ class SkinControllerTest {
                                     .accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
                     .andExpect(status().isNotFound())
                     .andReturn();
-
-            var x = mvcResult.getResponse();
-            System.out.println("Valor de X:\n");
 
                     assertAll(
                         () -> assertEquals(404, mvcResult.getResponse().getStatus(), "El status no es correcto!"),
